@@ -1,8 +1,6 @@
-// Default export matches the package name for ergonomic imports:
-//   import VoidShell from 'voidshell'
-export { default } from './MinimalistTerminal';
-
-// Friendly aliases for discoverability and flexibility
+// Public API: prefer named import
+//   import { VoidShell } from 'voidshell'
 export { default as VoidShell } from './MinimalistTerminal';
-export { default as Terminal } from './MinimalistTerminal';
+
+// Backwards-compatible alias (optional to use)
 export { default as MinimalistTerminal } from './MinimalistTerminal';

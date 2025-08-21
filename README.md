@@ -17,13 +17,7 @@ Usage
 Import the component in your React app:
 
 ```tsx
-// Recommended: default export
-import VoidShell from 'voidshell';
-
-// Or name it however you like
-// import Terminal from 'voidshell';
-// import { Terminal } from 'voidshell';
-// import { MinimalistTerminal } from 'voidshell';
+import { VoidShell } from 'voidshell';
 
 export default function App() {
   return (
