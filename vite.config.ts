@@ -13,7 +13,9 @@ export default defineConfig({
       fileName: (format) => `voidshell.${format}.js`,
     },
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      // Ensure React and the JSX runtime are not bundled to avoid
+      // multiple React copies and runtime mismatches in consumers.
+      external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
       output: {
         globals: {
           react: 'React',
@@ -23,4 +25,3 @@ export default defineConfig({
     },
   },
 });
-

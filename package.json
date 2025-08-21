@@ -1,6 +1,6 @@
 {
   "name": "voidshell",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "VoidShell – minimal terminal React component as a reusable package.",
   "license": "MIT",
   "type": "module",
