@@ -17,12 +17,18 @@ Usage
 Import the component in your React app:
 
 ```tsx
-import { MinimalistTerminal } from 'voidshell';
+// Recommended: default export
+import VoidShell from 'voidshell';
+
+// Or name it however you like
+// import Terminal from 'voidshell';
+// import { Terminal } from 'voidshell';
+// import { MinimalistTerminal } from 'voidshell';
 
 export default function App() {
   return (
     <div style={{ padding: 16 }}>
-      <MinimalistTerminal />
+      <VoidShell />
     </div>
   );
 }
@@ -33,4 +39,3 @@ Notes
 
 - The component uses Tailwind-like utility classes for styling, but does not bundle Tailwind. Consumers can style or override as needed.
 - `react` and `react-dom` are peer dependencies and must be provided by the consuming app.
-
