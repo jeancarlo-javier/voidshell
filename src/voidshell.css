@@ -1,0 +1,106 @@
+/*
+  VoidShell default styles
+  - Keep styles optional: consumers may import 'voidshell/styles.css'.
+  - Semantic classes allow custom theming without these defaults.
+*/
+
+.voidshell {
+  /* Theme vars (customizable by consumers) */
+  --vs-bg: #000000;               /* Tailwind bg-black */
+  --vs-fg: #4ade80;               /* Tailwind text-green-400 */
+  --vs-fg-dim: #86efac;           /* Tailwind text-green-300 */
+  --vs-border: #4ade80;           /* Tailwind border-green-400 */
+  --vs-error: #f87171;            /* Tailwind text-red-400 */
+  --vs-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace; /* Tailwind font-mono */
+  --vs-text-size: 0.875rem;       /* Tailwind text-sm */
+  --vs-header-size: 0.75rem;      /* Tailwind text-xs */
+  --vs-height: 24rem;             /* Tailwind h-96 */
+  --vs-gap: 0.25rem;              /* Tailwind space-y-1 */
+  --vs-padding: 0.5rem;           /* Tailwind p-2 */
+  --vs-header-px: 0.5rem;         /* Tailwind px-2 */
+  --vs-header-py: 0.25rem;        /* Tailwind py-1 */
+
+  background: var(--vs-bg);
+  color: var(--vs-fg);
+  font-family: var(--vs-font);
+  font-size: var(--vs-text-size);
+  height: var(--vs-height);
+  width: 100%;
+  border: 1px solid var(--vs-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.voidshell__header {
+  border-bottom: 1px solid var(--vs-border);
+  padding: var(--vs-header-py) var(--vs-header-px);
+  font-size: var(--vs-header-size);
+}
+
+.voidshell__history {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--vs-padding);
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #22c55e #000000; /* green-500 on black for contrast */
+}
+
+/* WebKit scrollbar */
+.voidshell__history::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.voidshell__history::-webkit-scrollbar-track {
+  background: #000000;
+}
+.voidshell__history::-webkit-scrollbar-thumb {
+  background-color: #22c55e; /* green-500 */
+}
+
+.voidshell__entry {
+  white-space: pre-wrap; /* Tailwind whitespace-pre-wrap */
+  color: var(--vs-fg-dim); /* default output color */
+}
+.voidshell__entry + .voidshell__entry {
+  margin-top: var(--vs-gap); /* Tailwind space-y-1 */
+}
+.voidshell__entry--input {
+  color: var(--vs-fg);
+}
+.voidshell__entry--error {
+  color: var(--vs-error);
+}
+.voidshell__entry--output {
+  color: var(--vs-fg-dim);
+}
+
+.voidshell__current {
+  display: flex;           /* Tailwind flex */
+  align-items: center;     /* Tailwind items-center */
+}
+.voidshell__prompt {
+  color: var(--vs-fg);
+  margin-right: 0.25rem; /* aligns with Tailwind mr-1 */
+}
+.voidshell__input {
+  background: transparent; /* Tailwind bg-transparent */
+  color: var(--vs-fg);      /* Tailwind text-green-400 */
+  outline: none;            /* Tailwind outline-none */
+  flex: 1 1 auto;           /* Tailwind flex-1 */
+  font-family: var(--vs-font); /* Tailwind font-mono */
+  border: 0; /* remove default borders */
+}
+.voidshell__cursor {
+  color: var(--vs-fg);
+  margin-left: 0.125rem;
+  animation: vshell-cursor-pulse 1s steps(1, end) infinite; /* Tailwind animate-pulse-like */
+}
+
+@keyframes vshell-cursor-pulse {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+

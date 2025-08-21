@@ -12,7 +12,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/voidshell.es.js",
       "require": "./dist/voidshell.cjs.js"
-    }
+    },
+    "./styles.css": "./dist/voidshell.css"
   },
   "files": [
     "dist"
@@ -41,7 +42,8 @@
     "dev": "vite",
     "build:lib": "vite build",
     "build:demo": "vite build --config vite.demo.config.ts",
-    "build": "npm run build:lib && npm run build:demo",
+    "build": "npm run build:lib && npm run copy:css && npm run build:demo",
+    "copy:css": "cp src/voidshell.css dist/voidshell.css",
     "preview": "vite preview --config vite.demo.config.ts --outDir demo-dist",
     "test": "vitest run",
     "test:watch": "vitest",

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { MinimalistTerminal } from '../src';
+import { VoidShell } from '../src';
 
 const typeAndEnter = async (text: string) => {
   const input = screen.getByRole('textbox');
@@ -11,9 +11,9 @@ const typeAndEnter = async (text: string) => {
   await userEvent.keyboard('{Enter}');
 };
 
-describe('MinimalistTerminal', () => {
+describe('VoidShell', () => {
   beforeEach(() => {
-    render(<MinimalistTerminal />);
+    render(<VoidShell />);
   });
 
   it('renders header and focuses input', async () => {

@@ -12,7 +12,7 @@ interface HistoryEntry {
 
 type Commands = Record<string, () => string>;
 
-const MinimalistTerminal: React.FC = () => {
+const Terminal: React.FC = () => {
   const [variables, setVariables] = useState<Record<string, VarValue>>({});
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -213,29 +213,25 @@ help               - Show this help message`;
 
   return (
     <div
-      className="bg-black text-green-400 font-mono text-sm h-96 w-full border border-green-400 flex flex-col"
+      className="voidshell"
       onClick={() => inputRef.current?.focus()}
     >
       {/* Header */}
-      <div className="border-b border-green-400 px-2 py-1 text-xs">
+      <div className="voidshell__header">
         Terminal v1.0 - Type 'help' for commands
       </div>
 
       {/* Terminal output */}
-      <div
-        ref={terminalRef}
-        className="flex-1 overflow-y-auto p-2 space-y-1"
-        style={{ scrollbarWidth: "thin", scrollbarColor: "#22c55e #000000" }}
-      >
+      <div ref={terminalRef} className="voidshell__history">
         {history.map((entry, index) => (
           <div
             key={index}
-            className={`whitespace-pre-wrap ${
+            className={`voidshell__entry ${
               entry.type === "input"
-                ? "text-green-400"
+                ? "voidshell__entry--input"
                 : entry.type === "error"
-                ? "text-red-400"
-                : "text-green-300"
+                ? "voidshell__entry--error"
+                : "voidshell__entry--output"
             }`}
           >
             {entry.content}
@@ -243,23 +239,23 @@ help               - Show this help message`;
         ))}
 
         {/* Current input line */}
-        <div className="flex items-center">
-          <span className="text-green-400 mr-1">$</span>
+        <div className="voidshell__current">
+          <span className="voidshell__prompt">$</span>
           <input
             ref={inputRef}
             type="text"
             value={currentInput}
             onChange={(e) => setCurrentInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="bg-transparent text-green-400 outline-none flex-1 font-mono"
+            className="voidshell__input"
             spellCheck="false"
             autoComplete="off"
           />
-          <span className="animate-pulse text-green-400">|</span>
+          <span className="voidshell__cursor">|</span>
         </div>
       </div>
     </div>
   );
 };
 
-export default MinimalistTerminal;
+export default Terminal;

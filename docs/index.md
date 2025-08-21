@@ -13,12 +13,12 @@ Peer dependencies (not installed by the package): `react`, `react-dom` (v17+ rec
 ## Quick Start
 
 ```tsx
-import { MinimalistTerminal } from 'voidshell';
+import { VoidShell } from "voidshell";
 
 export default function App() {
   return (
     <div style={{ padding: 16 }}>
-      <MinimalistTerminal />
+      <VoidShell />
     </div>
   );
 }
@@ -43,7 +43,7 @@ export default function App() {
 
 ## API
 
-Component: `MinimalistTerminal`
+Component: `Terminal`
 
 - Props: none (v0.1).
 - Render: self-contained terminal UI. Size/layout can be controlled by wrapping container styles.
@@ -56,14 +56,14 @@ Note: Future versions may expose props for theme, initial history, custom comman
 - Wrap with your own container to control height/width. Example:
 
 ```tsx
-<div style={{ height: 384, width: '100%' }}>
-  <MinimalistTerminal />
+<div style={{ height: 384, width: "100%" }}>
+  <VoidShell />
 </div>
 ```
 
 ## TypeScript
 
-- Ships type declarations. Import via named export: `import { MinimalistTerminal } from 'voidshell'`.
+- Ships type declarations. Import via named export: `import { VoidShell } from 'voidshell'`.
 
 ## Security Considerations
 
