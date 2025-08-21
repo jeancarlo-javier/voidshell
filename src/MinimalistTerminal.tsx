@@ -1,16 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const MinimalistTerminal = () => {
-  const [variables, setVariables] = useState({});
-  const [history, setHistory] = useState([]);
-  const [commandHistory, setCommandHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const [currentInput, setCurrentInput] = useState("");
-  const inputRef = useRef(null);
-  const terminalRef = useRef(null);
+type VarValue = string | number | boolean;
+
+type HistoryEntryType = "input" | "output" | "error";
+
+interface HistoryEntry {
+  type: HistoryEntryType;
+  content: string;
+}
+
+type Commands = Record<string, () => string>;
+
+const MinimalistTerminal: React.FC = () => {
+  const [variables, setVariables] = useState<Record<string, VarValue>>({});
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
+  const [currentInput, setCurrentInput] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const terminalRef = useRef<HTMLDivElement | null>(null);
 
   // Parse and convert Python-like values
-  const parseValue = (valueStr) => {
+  const parseValue = (valueStr: string): VarValue => {
     const trimmed = valueStr.trim();
 
     // Handle strings (quoted)
@@ -26,21 +37,21 @@ const MinimalistTerminal = () => {
     if (trimmed === "False") return false;
 
     // Handle numbers
-    if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed);
+    if (/^-?\d+$/.test(trimmed)) return parseInt(trimmed, 10);
     if (/^-?\d*\.\d+$/.test(trimmed)) return parseFloat(trimmed);
 
     // Default to string
     return trimmed;
   };
 
-  const formatValue = (value) => {
+  const formatValue = (value: VarValue): string => {
     if (typeof value === "string") return `'${value}'`;
     if (typeof value === "boolean") return value ? "True" : "False";
     return value.toString();
   };
 
   // Built-in commands
-  const commands = {
+  const commands: Commands = {
     vars: () => {
       const varList = Object.keys(variables);
       if (varList.length === 0) return "No variables declared";
@@ -65,7 +76,7 @@ help               - Show this help message`;
     },
   };
 
-  const executeCommand = (input) => {
+  const executeCommand = (input: string): void => {
     const trimmedInput = input.trim();
     if (!trimmedInput) return;
 
@@ -84,7 +95,7 @@ help               - Show this help message`;
       /^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/
     );
     if (assignmentMatch) {
-      const [, varName, valueStr] = assignmentMatch;
+      const [, varName, valueStr] = assignmentMatch as RegExpMatchArray;
       const value = parseValue(valueStr);
       setVariables((prev) => ({ ...prev, [varName]: value }));
       setHistory((prev) => [
@@ -96,8 +107,8 @@ help               - Show this help message`;
 
     // Check for built-in commands first
     const command = trimmedInput.toLowerCase();
-    if (commands[command]) {
-      const output = commands[command]();
+    if (command in commands) {
+      const output = commands[command]!();
       if (output) {
         setHistory((prev) => [...prev, { type: "output", content: output }]);
       }
@@ -124,17 +135,23 @@ help               - Show this help message`;
     try {
       // Replace variables in the expression with their values
       let expression = trimmedInput;
-      for (const [varName, value] of Object.entries(variables)) {
+      for (const [varName, value] of Object.entries(variables) as [
+        string,
+        VarValue
+      ][]) {
         const regex = new RegExp(`\\b${varName}\\b`, "g");
         expression = expression.replace(
           regex,
-          typeof value === "number" ? value : `"${value}"`
+          typeof value === "number" ? String(value) : `"${value}"`
         );
       }
 
       // Only evaluate if it looks like a math expression or contains variables
       if (/^[\d+\-*/%().\s"'a-zA-Z_]+$/.test(trimmedInput)) {
-        const result = Function(`"use strict"; return (${expression})`)();
+        const result = Function(`"use strict"; return (${expression})`)() as
+          | string
+          | number
+          | boolean;
         setHistory((prev) => [
           ...prev,
           { type: "output", content: result.toString() },
@@ -152,7 +169,7 @@ help               - Show this help message`;
     ]);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
       executeCommand(currentInput);
       setCurrentInput("");
@@ -245,4 +262,3 @@ help               - Show this help message`;
 };
 
 export default MinimalistTerminal;
-
