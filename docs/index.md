@@ -24,6 +24,46 @@ export default function App() {
 }
 ```
 
+## Styling
+
+There are two ways to style VoidShell:
+
+- Default styles: Import the optional stylesheet exposed by the package. This applies a Tailwind-like terminal look (black background, green monospace text) without requiring Tailwind.
+
+```tsx
+import { VoidShell } from 'voidshell';
+import 'voidshell/styles.css';
+
+export default function App() {
+  return <VoidShell />;
+}
+```
+
+- Custom styles: Do not import the stylesheet and instead target the semantic class names in your own CSS. You can also override CSS variables for quick theming.
+
+Semantic classes:
+
+- `.voidshell` – root container
+- `.voidshell__header` – header bar
+- `.voidshell__history` – scrollable output area
+- `.voidshell__entry` – output line; modifiers: `--input`, `--output`, `--error`
+- `.voidshell__current` – current input row
+- `.voidshell__prompt` – `$` prompt
+- `.voidshell__input` – text input
+- `.voidshell__cursor` – blinking cursor
+
+Theme via CSS variables on `.voidshell`:
+
+```
+.voidshell {
+  --vs-bg: #000;          /* background */
+  --vs-fg: #4ade80;       /* primary text */
+  --vs-fg-dim: #86efac;   /* secondary text */
+  --vs-border: #4ade80;   /* border color */
+  --vs-error: #f87171;    /* error text */
+}
+```
+
 ## What It Does
 
 - Simple in-page terminal with stateful command history.
