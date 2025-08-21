@@ -70,7 +70,7 @@ const Terminal: React.FC = () => {
       return `Available commands:
 <var> = <value>    - Declare variable (e.g., name = 'John', age = 25, active = True)
 <var>              - Display variable value
-<expression>       - Evaluate math expression (e.g., 2 + 3 * 4)
+<expression>       - Evaluate math/comparisons/logic (e.g., 2 + 3 * 4, 1 == 1, True and not False, 1 is not 2)
 vars               - List all declared variables
 clear              - Clear terminal output
 help               - Show this help message`;
@@ -92,8 +92,9 @@ help               - Show this help message`;
     ]);
 
     // Check for variable assignment (e.g., "name = 'John'", "age = 25")
+    // Variable assignment: make sure it's a single '=' (not '==', '>=', etc.)
     const assignmentMatch = trimmedInput.match(
-      /^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/
+      /^([a-zA-Z_][a-zA-Z0-9_]*)\s*=(?!=)\s*(.+)$/
     );
     if (assignmentMatch) {
       const [, varName, valueStr] = assignmentMatch as RegExpMatchArray;
@@ -132,8 +133,23 @@ help               - Show this help message`;
       return;
     }
 
-    // Check for math expression (contains numbers, variables, and operators)
+    // Check for expression evaluation (math, comparisons, booleans)
     try {
+      // Prepare expression (Python-like booleans/operators → JS)
+      const prepareExpression = (expr: string): string => {
+        let e = expr;
+        // Replace Python boolean literals with JS booleans
+        e = e.replace(/\bTrue\b/g, 'true').replace(/\bFalse\b/g, 'false');
+        // Replace logical operators (word boundaries)
+        e = e.replace(/\bis not\b/g, '!==');
+        e = e.replace(/\bis\b/g, '===');
+        e = e.replace(/\band\b/g, '&&');
+        e = e.replace(/\bor\b/g, '||');
+        // Unary not: ensure we don't break existing operators
+        e = e.replace(/\bnot\b/g, '!');
+        return e;
+      };
+
       // Replace variables in the expression with their values
       let expression = trimmedInput;
       for (const [varName, value] of Object.entries(variables) as [
@@ -141,21 +157,35 @@ help               - Show this help message`;
         VarValue
       ][]) {
         const regex = new RegExp(`\\b${varName}\\b`, "g");
-        expression = expression.replace(
-          regex,
-          typeof value === "number" ? String(value) : `"${value}"`
-        );
+        const replacement =
+          typeof value === "number"
+            ? String(value)
+            : typeof value === "boolean"
+            ? String(value)
+            : `"${value}"`;
+        expression = expression.replace(regex, replacement);
       }
 
-      // Only evaluate if it looks like a math expression or contains variables
-      if (/^[\d+\-*/%().\s"'a-zA-Z_]+$/.test(trimmedInput)) {
+      // Apply Python → JS operator/literal conversions
+      expression = prepareExpression(expression);
+
+      // Only evaluate if it looks like an expression (numbers, variables, operators)
+      if (/^[\d+\-*/%().\s"'a-zA-Z_!=<>]+$/.test(trimmedInput)) {
         const result = Function(`"use strict"; return (${expression})`)() as
           | string
           | number
           | boolean;
         setHistory((prev) => [
           ...prev,
-          { type: "output", content: result.toString() },
+          {
+            type: "output",
+            content:
+              typeof result === "boolean"
+                ? result
+                  ? "True"
+                  : "False"
+                : String(result),
+          },
         ]);
         return;
       }

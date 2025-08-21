@@ -3,6 +3,16 @@ VoidShell
 
 Minimal terminal-like React component packaged as a reusable library.
 
+Features (v0.2)
+---------------
+
+- Python-style booleans: `True`, `False` (printed in Python casing).
+- Comparisons: `==`, `!=`, `<`, `<=`, `>`, `>=` on numbers, strings, and variables.
+- Logic operators: `and`, `or`, `not`.
+- Identity keywords: `is`, `is not` for primitive comparisons.
+- Variables: assign with `<var> = <value>`, read with `<var>`.
+- Built-ins: `vars`, `clear`, `help`.
+
 Install
 -------
 
@@ -28,6 +38,33 @@ export default function App() {
     </div>
   );
 }
+```
+
+Examples
+--------
+
+General command forms (Python-like syntax):
+
+- Assignment: `<name> = <value>` (value: number | 'string' | True | False)
+- Lookup: `<name>` (prints the current value)
+- Math: `<number-expr>` (e.g., `(<num|var>) (+|-|*|/|%) (<num|var>)`)
+- Comparisons: `<expr> (== | != | < | <= | > | >=) <expr>`
+- Logic: `<bool-expr> and <bool-expr>`, `<bool-expr> or <bool-expr>`, `not <bool-expr>`
+- Identity: `<expr> is <expr>`, `<expr> is not <expr>`
+- Built-ins: `vars`, `clear`, `help`
+
+Quick demo:
+
+```
+$ name = 'Ada'
+$ age = 25
+$ age >= 18            → True
+$ True and not False   → True
+$ name is not 'Alan'   → True
+$ name == 'Ada'        → True
+$ vars
+name = 'Ada'
+age = 25
 ```
 
 Styling
@@ -61,3 +98,4 @@ Notes
 
 - The component exposes semantic class names; default CSS mimics the original Tailwind-like look but Tailwind itself is not bundled.
 - `react` and `react-dom` are peer dependencies and must be provided by the consuming app.
+- Chained comparisons like `1 < 2 < 3` follow JS semantics (not Python’s); they are not specially handled.

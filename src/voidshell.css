@@ -6,20 +6,20 @@
 
 .voidshell {
   /* Theme vars (customizable by consumers) */
-  --vs-bg: #000000;               /* Tailwind bg-black */
-  --vs-fg: #4ade80;               /* Tailwind text-green-400 */
-  --vs-fg-dim: #86efac;           /* Tailwind text-green-300 */
-  --vs-border: #4ade80;           /* Tailwind border-green-400 */
-  --vs-error: #f87171;            /* Tailwind text-red-400 */
+  --vs-bg: #000000; /* Tailwind bg-black */
+  --vs-fg: #4ade80; /* Tailwind text-green-400 */
+  --vs-fg-dim: #86efac; /* Tailwind text-green-300 */
+  --vs-border: #4ade80; /* Tailwind border-green-400 */
+  --vs-error: #f87171; /* Tailwind text-red-400 */
   --vs-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace; /* Tailwind font-mono */
-  --vs-text-size: 0.875rem;       /* Tailwind text-sm */
-  --vs-header-size: 0.75rem;      /* Tailwind text-xs */
-  --vs-height: 24rem;             /* Tailwind h-96 */
-  --vs-gap: 0.25rem;              /* Tailwind space-y-1 */
-  --vs-padding: 0.5rem;           /* Tailwind p-2 */
-  --vs-header-px: 0.5rem;         /* Tailwind px-2 */
-  --vs-header-py: 0.25rem;        /* Tailwind py-1 */
+  --vs-text-size: 0.875rem; /* Tailwind text-sm */
+  --vs-header-size: 0.75rem; /* Tailwind text-xs */
+  --vs-height: 24rem; /* Tailwind h-96 */
+  --vs-gap: 0.25rem; /* Tailwind space-y-1 */
+  --vs-padding: 0.5rem; /* Tailwind p-2 */
+  --vs-header-px: 0.5rem; /* Tailwind px-2 */
+  --vs-header-py: 0.25rem; /* Tailwind py-1 */
 
   background: var(--vs-bg);
   color: var(--vs-fg);
@@ -39,6 +39,8 @@
 }
 
 .voidshell__history {
+  text-align: left;
+
   flex: 1 1 auto;
   overflow-y: auto;
   padding: var(--vs-padding);
@@ -78,8 +80,8 @@
 }
 
 .voidshell__current {
-  display: flex;           /* Tailwind flex */
-  align-items: center;     /* Tailwind items-center */
+  display: flex; /* Tailwind flex */
+  align-items: center; /* Tailwind items-center */
 }
 .voidshell__prompt {
   color: var(--vs-fg);
@@ -87,9 +89,9 @@
 }
 .voidshell__input {
   background: transparent; /* Tailwind bg-transparent */
-  color: var(--vs-fg);      /* Tailwind text-green-400 */
-  outline: none;            /* Tailwind outline-none */
-  flex: 1 1 auto;           /* Tailwind flex-1 */
+  color: var(--vs-fg); /* Tailwind text-green-400 */
+  outline: none; /* Tailwind outline-none */
+  flex: 1 1 auto; /* Tailwind flex-1 */
   font-family: var(--vs-font); /* Tailwind font-mono */
   border: 0; /* remove default borders */
 }
@@ -100,7 +102,12 @@
 }
 
 @keyframes vshell-cursor-pulse {
-  0%, 50% { opacity: 1; }
-  50.01%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }
-

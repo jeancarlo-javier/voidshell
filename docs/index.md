@@ -67,7 +67,7 @@ Theme via CSS variables on `.voidshell`:
 ## What It Does
 
 - Simple in-page terminal with stateful command history.
-- Supports basic variable assignment, lookup, and expression eval.
+- Supports variable assignment, lookup, and expression evaluation with Python-like syntax.
 - Built-in commands: `vars`, `clear`, `help`.
 - Keyboard: `Enter` to run, `ArrowUp/ArrowDown` to navigate history.
 
@@ -75,7 +75,11 @@ Theme via CSS variables on `.voidshell`:
 
 - Assignment: `name = 'John'`, `age = 25`, `active = True`/`False`
 - Lookup: `name` (prints the value)
-- Expressions: `2 + 3 * 4`, `age + 5`, `active && True`
+- Expressions:
+  - Math: `2 + 3 * 4`, `age + 5`
+  - Comparisons: `==`, `!=`, `<`, `<=`, `>`, `>=` (e.g., `1 == 1`, `name == 'John'`)
+  - Logic: `and`, `or`, `not` (e.g., `True and not False`)
+  - Identity: `is`, `is not` for primitives (e.g., `1 is not 2`)
 - Commands:
   - `vars`: list declared variables
   - `clear`: clear output area
@@ -83,9 +87,9 @@ Theme via CSS variables on `.voidshell`:
 
 ## API
 
-Component: `Terminal`
+Component: `VoidShell`
 
-- Props: none (v0.1).
+- Props: none (v0.2).
 - Render: self-contained terminal UI. Size/layout can be controlled by wrapping container styles.
 
 Note: Future versions may expose props for theme, initial history, custom commands, and styling hooks.
@@ -109,6 +113,11 @@ Note: Future versions may expose props for theme, initial history, custom comman
 
 - Expression evaluation is deliberately constrained, but still uses `Function(...)` to evaluate simple expressions.
 - Do not expose this terminal to untrusted user input without additional safeguards.
+
+### Notes
+
+- Booleans are printed as `True`/`False` (Python style).
+- Chained comparisons like `1 < 2 < 3` are not specially handled (JS semantics apply).
 
 ## Local Development (Repo)
 
